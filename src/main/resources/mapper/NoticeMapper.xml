@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nau.dao.NoticeDao">
+    <select id="findBySearch" resultType="com.nau.entity.Notice">
+        select * from notice
+        order by id desc
+    </select>
+
+    <select id="findAll" resultType="com.nau.entity.Notice">
+        select * from notice
+        <where>
+            <if test="params != null and params.studentName != null and params.studentName != ''">
+                and name = #{ params.studentName }
+            </if>
+        </where>
+        order by id desc
+        limit 6
+    </select>
+
+</mapper>

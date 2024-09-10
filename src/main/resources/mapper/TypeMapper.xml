@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nau.dao.TypeDao">
+    <insert id="insertByType" parameterType="com.nau.entity.Type" useGeneratedKeys="true">
+        insert into type
+        <trim prefix="(" suffix=" )" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="desc != null">desc,</if>
+            <if test="teacherId != null">teacher_id</if>
+        </trim>
+        <trim prefix="(" suffix=" )" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="desc != null">#{desc},</if>
+            <if test="teacherId != null">#{teacherId}</if>
+        </trim>
+    </insert>
+
+    <select id="findBySearch" resultType="com.nau.entity.Type">
+        select type.*,teacher.name as teacherName
+        from type
+        left join teacher on type.teacher_id = teacher.id
+        <where>
+            <if test="params != null and params.name != null and params.name != ''">
+                and type.name like concat('%', #{ params.name }, '%')
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+</mapper>
