@@ -11,6 +11,9 @@ spring:
     hikari:
       maximum-pool-size: 200
       minimum-idle: 10
+      max-lifetime: 180000
+      idle-timeout: 170000
+      connection-test-query: select 1
 
   main:
     allow-circular-references: true
