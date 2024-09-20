@@ -1,3 +1,3 @@
-# 养发服务预约系统
+# YangFaGuan Service System
 
 基于springboot/mysql 开发
