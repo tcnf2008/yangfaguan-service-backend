@@ -95,12 +95,12 @@ public class SalonController {
   }
 
   @GetMapping("/findByUserId")
-  public Result<List<Appointment>> findByUserId(@RequestParam Integer userId) {
-    return appointmentService.findByUserId(userId);
+  public Result<List<Appointment>> findByUserId(@RequestParam Integer userId, @RequestParam Integer pageSize, @RequestParam Integer pageNum) {
+    return appointmentService.findByUserId(userId, pageSize, pageNum);
   }
 
   @GetMapping("/findBySalonId")
-  public Result<List<Appointment>> findBySalonId(@RequestParam Integer salonId) {
-    return appointmentService.findBySalonId(salonId);
+  public Result<List<Appointment>> findBySalonId(@RequestParam Integer salonId, @RequestParam Integer pageSize, @RequestParam Integer pageNum) {
+    return appointmentService.findBySalonId(salonId, pageSize, pageNum);
   }
 }

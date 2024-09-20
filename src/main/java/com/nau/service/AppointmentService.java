@@ -161,6 +161,22 @@ public class AppointmentService {
     }
   }
 
+  public Result<List<Appointment>> findByUserId(int userId, Integer pageSize, Integer pageNum) {
+    try {
+      List<Appointment> appointmentList = appointmentDao.findByUserIdByPage(userId, pageSize, (pageNum - 1) * pageSize);
+      if (CollUtil.isNotEmpty(appointmentList)) {
+        for (Appointment appointment : appointmentList) {
+          appointment.setStatusName(Status.valueOf(appointment.getStatus()).getNick());
+        }
+      }
+
+      return Result.success(appointmentList);
+    } catch (Exception e) {
+      log.error("findByUserId error", e);
+      return Result.error("findByUserId error");
+    }
+  }
+
   public Result<List<Appointment>> findBySalonId(Integer salonId) {
     try {
       User currentUser = JwtTokenUtils.getCurrentUser();
@@ -170,6 +186,31 @@ public class AppointmentService {
         appointmentList = appointmentDao.findBySalonIdAndTechnicianId(salonId, currentUser.getId());
       } else if (Role.ADMIN.name().equalsIgnoreCase(currentUser.getRole())) {
         appointmentList = appointmentDao.findBySalonId(salonId);
+      }
+
+      if (CollUtil.isNotEmpty(appointmentList)) {
+        for (Appointment appointment : appointmentList) {
+          appointment.setStatusName(Status.valueOf(appointment.getStatus()).getNick());
+        }
+      }
+      return Result.success(appointmentList);
+    } catch (Exception e) {
+      log.error("findByUserId error", e);
+      return Result.error("findByUserId error");
+    }
+  }
+
+  public Result<List<Appointment>> findBySalonId(Integer salonId, Integer pageSize, Integer pageNum) {
+    try {
+      User currentUser = JwtTokenUtils.getCurrentUser();
+
+      List<Appointment> appointmentList = null;
+      if (Role.TECHNICIAN.name().equalsIgnoreCase(currentUser.getRole()) ) {
+        appointmentList = appointmentDao.findBySalonIdAndTechnicianIdByPage(salonId, currentUser.getId(), pageSize, (pageNum - 1) * pageSize);
+      }else if (Role.MANAGER.name().equalsIgnoreCase(currentUser.getRole())) {
+        appointmentList = appointmentDao.findBySalonIdByPage(currentUser.getSalonId(), pageSize, (pageNum - 1) * pageSize);
+      } else if (Role.ADMIN.name().equalsIgnoreCase(currentUser.getRole())) {
+        appointmentList = appointmentDao.findBySalonIdByPage(salonId, pageSize, (pageNum - 1) * pageSize);
       }
 
       if (CollUtil.isNotEmpty(appointmentList)) {
