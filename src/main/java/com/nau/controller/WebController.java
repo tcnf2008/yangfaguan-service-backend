@@ -30,7 +30,7 @@ public class WebController {
   @PostMapping("/login")
   @LogAround("登录该系统")
   public Result login(@RequestBody User account, @RequestParam String key, HttpServletRequest request) {
-    if (ObjectUtil.isEmpty(account.getUsername()) || ObjectUtil.isEmpty(account.getPassword()) ) {
+    if (ObjectUtil.isEmpty(account.getUsername()) || ObjectUtil.isEmpty(account.getPassword())) {
       return Result.error("账号或者密码为空");
     }
     User userDb = userService.login(account, key, request);
@@ -81,15 +81,7 @@ public class WebController {
       return Result.error("账号或者密码为空");
     }
 
-    if ("ADMIN".equals(account.getRole())) {
-      userService.updatePassword(account);
-    }
-//    if ("TEACHER".equals(account.getRole())) {
-//      teacherService.updatePassword(account);
-//    }
-//    if ("STUDENT".equals(account.getRole())) {
-//      studentService.updatePassword(account);
-//    }
+    userService.updatePassword(account);
     return Result.success();
   }
 

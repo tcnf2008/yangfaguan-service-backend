@@ -27,7 +27,6 @@ public class LogAspect {
 
     @Around("@annotation(logAround)")
     public Object doAround(ProceedingJoinPoint joinPoint, LogAround logAround) throws Throwable {
-
         // 操作内容，我们在注解里已经定义了value()，然后再需要切入的接口上面去写上对应的操作内容即可
         String name = logAround.value();
         // 操作时间（当前时间）
@@ -54,8 +53,6 @@ public class LogAspect {
         // 再去往日志表里写一条日志记录
         Log log = new Log(null, name, username, time, ip);
         logService.add(log);
-
-        // 你可以走了，去返回前台报到吧~
         return result;
     }
 }
