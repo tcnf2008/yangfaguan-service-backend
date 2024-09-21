@@ -1,3 +1,3 @@
 # YangFaGuan Service System
 
-基于springboot/mysql 开发
+基于springboot/Mybatis/mysql 开发
